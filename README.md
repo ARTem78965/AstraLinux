@@ -101,3 +101,36 @@ write_enable=YES
 
 ### Если не получается подключиться к сетевому ресурсу через Windows, то используем коносль CMD:
 * `net use z: \\<ip-адрес>\<имя_директории> /user:<имя_пользователь> <пароль>`
+
+
+# ALT Linux.
+
+## Создание, разметка, монтирование дисков.
+```
+parted
+print device
+select /dev/sd*
+print
+mktable msdos
+mkpart primary 0 1024000
+
+fdisk -l /dev/sd*
+mkfs -- type <ext4, fat32...> /dev/sd*
+
+mount /dev/sd* /mount/path
+blkid
+nano /etc/fstab
+
+# Смонтированный диск (при перезагрузки диск не отвалится)
+UUID=<индефикационный номер диска, lun, ...> /mount/path <ext4, fat32, ...>   defaults 0  0
+
+```
+
+## NextCloud Hub 9.
+
+```
+apt-get install deploy
+deploy nextcloud
+```
+Переходим на `http://<nextcloud-address>/nextcloud`
+Смена пароля для ncadmin `deploy nextcloud password=<меняем_пароль>`
